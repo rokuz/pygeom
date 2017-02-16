@@ -2,18 +2,25 @@ import math
 import copy
 import exceptions
 import functions
-import vec2_gen
+import vec3_gen
 
 
-class Vec2(vec2_gen.GenVec2):
-    def __init__(self, x=0.0, y=0.0):
-        vec2_gen.GenVec2.__init__(self, x, y)
+class Vec3(vec3_gen.GenVec3):
+    def __init__(self, x=0.0, y=0.0, z=0.0):
+        vec3_gen.GenVec3.__init__(self, x, y, z)
+
+    def from_vec2(self, v):
+        self.x = v[0]
+        self.y = v[1]
+        self.z = 0.0
 
     def __getitem__(self, key):
         if key == 0:
             return self.x
         elif key == 1:
             return self.y
+        elif key == 2:
+            return self.z
         else:
             raise ValueError("Integer key required")
 
@@ -22,55 +29,63 @@ class Vec2(vec2_gen.GenVec2):
             self.x = value
         elif key == 1:
             self.y = value
+        elif key == 2:
+            self.z = value
         else:
             raise ValueError("Integer key required")
 
     def __str__(self):
-        return 'Vec2({}; {})'.format(self.x, self.y)
+        return 'Vec3({}; {}; {})'.format(self.x, self.y, self.z)
 
     def __copy__(self):
-        return Vec2(self.x, self.y)
+        return Vec3(self.x, self.y, self.z)
 
     def __deepcopy__(self, memodict={}):
-        return Vec2(self.x, self.y)
+        return Vec3(self.x, self.y, self.z)
 
     def __add__(self, other):
-        return Vec2(self.x + other[0], self.y + other[1])
+        return Vec3(self.x + other[0], self.y + other[1], self.z + other[2])
 
     def __iadd__(self, other):
         self.x += other[0]
         self.y += other[1]
+        self.z += other[2]
         return self
 
     def __sub__(self, other):
-        return Vec2(self.x - other[0], self.y - other[1])
+        return Vec3(self.x - other[0], self.y - other[1], self.z - other[2])
 
     def __isub__(self, other):
         self.x -= other[0]
         self.y -= other[1]
+        self.z -= other[2]
         return self
 
     def __mul__(self, scalar):
-        return Vec2(self.x * scalar, self.y * scalar)
+        return Vec3(self.x * scalar, self.y * scalar, self.z * scalar)
 
     def __imul__(self, scalar):
         self.x *= scalar
         self.y *= scalar
+        self.z *= scalar
         return self
 
     def __div__(self, scalar):
-        return Vec2(self.x / scalar, self.y / scalar)
+        return Vec3(self.x / scalar, self.y / scalar, self.z / scalar)
 
     def __idiv__(self, scalar):
         self.x /= scalar
         self.y /= scalar
+        self.z /= scalar
         return self
 
     def __neg__(self):
-        return Vec2(-self.x, -self.y)
+        return Vec3(-self.x, -self.y, -self.z)
 
     def __eq__(self, other):
-        return functions.almost_equal(self.x, other[0]) and functions.almost_equal(self.y, other[1])
+        return functions.almost_equal(self.x, other[0]) and \
+               functions.almost_equal(self.y, other[1]) and \
+               functions.almost_equal(self.z, other[2])
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -93,7 +108,7 @@ class Vec2(vec2_gen.GenVec2):
 
     def length_squared(self):
         """Calculates squared length of a vector."""
-        return self.x * self.x + self.y * self.y
+        return self.x * self.x + self.y * self.y + self.z * self.z
 
     def length(self):
         """Calculates length of a vector."""
@@ -107,6 +122,7 @@ class Vec2(vec2_gen.GenVec2):
         l = math.sqrt(ls)
         self.x /= l
         self.y /= l
+        self.z /= l
 
     def get_normalized(self):
         """Returns normalized copy of a vector. Raises VectorException in case of zero length."""
@@ -116,19 +132,11 @@ class Vec2(vec2_gen.GenVec2):
 
     def dot(self, v2):
         """Calculated dot product of current vector and vector v2."""
-        return self.x * v2[0] + self.y * v2[1]
+        return self.x * v2[0] + self.y * v2[1] + self.z * v2[2]
 
     def cross(self, v2):
-        """Calculates cross product. It's a scalar which absolute value equals to
-        square of a parallelogram constructed on the current vector and vector v2.
-        The sign tells either v2 is on the left side (positive value) of the current
-        vector or on the right side (negative value)."""
-        return self.x * v2[1] - self.y * v2[0]
-
-    def left_normal(self):
-        """Calculates left normal vector to the current vector."""
-        return Vec2(-self.y, self.x)
-
-    def right_normal(self):
-        """Calculates right normal vector to the current vector."""
-        return Vec2(self.y, -self.x)
+        """Calculated cross product. The result is a vector perpendicular to the current
+        vector and vector v2."""
+        return Vec3(self.y * v2[2] - self.z * v2[1],
+                    self.z * v2[0] - self.x * v2[2],
+                    self.x * v2[1] - self.y * v2[0])
