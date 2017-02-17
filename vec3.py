@@ -34,6 +34,9 @@ class Vec3(vec3_gen.GenVec3):
         else:
             raise ValueError("Integer key required")
 
+    def __len__(self):
+        return 3
+
     def __str__(self):
         return 'Vec3({}; {}; {})'.format(self.x, self.y, self.z)
 
@@ -92,11 +95,15 @@ class Vec3(vec3_gen.GenVec3):
 
     def __lt__(self, other):
         if functions.almost_equal(self.x, other[0]):
+            if functions.almost_equal(self.y, other[1]):
+                return self.z < other[2]
             return self.y < other[1]
         return self.x < other[0]
 
     def __gt__(self, other):
         if functions.almost_equal(self.x, other[0]):
+            if functions.almost_equal(self.y, other[1]):
+                return self.z > other[2]
             return self.y > other[1]
         return self.x > other[0]
 

@@ -25,6 +25,9 @@ class Vec2(vec2_gen.GenVec2):
         else:
             raise ValueError("Integer key required")
 
+    def __len__(self):
+        return 2
+
     def __str__(self):
         return 'Vec2({}; {})'.format(self.x, self.y)
 
