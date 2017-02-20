@@ -79,5 +79,10 @@ def test_dot():
 
 
 def test_cross():
-    #TODO
-    pass
+    v1 = Vec3(0.0, 1.0, 0.0)
+    v2 = Vec3(2.0, 2.0, 2.0)
+    v3 = v1.cross(v2)
+    assert almost_equal(v1.dot(v3), 0.0) and almost_equal(v2.dot(v3), 0.0)
+    v4 = v2.cross(v1)
+    assert almost_equal(v3.dot(v4), -v3.dot(v3)) and almost_equal(v3.dot(v4), -v4.dot(v4))
+    assert almost_equal(v3.length(), v1.length() * v2.length() * math.sin(math.atan(math.sqrt(2))))
