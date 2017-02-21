@@ -6,6 +6,7 @@ import vec2_gen
 
 
 class Vec2(vec2_gen.GenVec2):
+    """2D Vector."""
     def __init__(self, x=0.0, y=0.0):
         vec2_gen.GenVec2.__init__(self, x, y)
 
