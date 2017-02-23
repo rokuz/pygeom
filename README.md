@@ -16,6 +16,9 @@ The following classes are available:
     - Projection of 2D point to line;
     - The shortest distance between 2D point and line.
 - **Tri2**. It represents 2D triangle.
+    Features:
+    - Checking for degeneration;
+    - Checking for point inside.
 - **Vec3**. It represents 3D vector.
     Features:
     - Swizzling like in shader languages (GLSL, HLSL, etc.);

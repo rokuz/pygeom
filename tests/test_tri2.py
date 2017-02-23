@@ -2,6 +2,8 @@ import pytest
 import copy
 from tri2 import Tri2
 from vec2 import Vec2
+from line2 import Line2
+from functions import almost_equal
 
 
 def test_construction():
@@ -80,3 +82,26 @@ def test_point_inside():
     assert t2.is_point_inside([4.0, 1.0])
     assert not t2.is_point_strict_inside([4.0, 1.0])
 
+
+def test_sides_distance():
+    t = Tri2(Vec2(0.0, 0.0), Vec2(0.0, 5.0), Vec2(5.0, 0.0))
+    assert t.edge(0) == Line2([0.0, 0.0], [0.0, 5.0])
+    assert t.edge(1) == Line2([0.0, 5.0], [5.0, 0.0])
+    assert t.edge(2) == Line2([5.0, 0.0], [0.0, 0.0])
+    with pytest.raises(ValueError):
+        t.edge(3)
+    assert almost_equal(t.distance_squared([2.0, -2.0]), 4.0)
+    assert almost_equal(t.distance_squared(Vec2(0.0, 5.0)), 0.0)
+    assert almost_equal(t.distance([-3.0, 3.0]), 3.0)
+    assert almost_equal(t.distance([4.0, -1.0]), 1.0)
+    assert almost_equal(t.distance([2.5, 1.0]), 1.0)
+    assert t.nearest_edge_index([2.0, -2.0]) == 2
+    assert t.nearest_edge_index(Vec2(0.0, 5.0)) == 0
+    assert t.nearest_edge_index([4.0, 4.0]) == 1
+
+
+def test_square():
+    t = Tri2(Vec2(0.0, 0.0), Vec2(0.0, 5.0), Vec2(5.0, 0.0))
+    assert almost_equal(t.square(), 12.5)
+    t2 = Tri2(Vec2(0.0, 5.0), Vec2(0.0, 5.0), Vec2(0.0, 5.0))
+    assert almost_equal(t2.square(), 0.0)

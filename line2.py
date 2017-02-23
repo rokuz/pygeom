@@ -55,6 +55,10 @@ class Line2(object):
     def right_normal(self):
         return self.direction.right_normal
 
+    def length(self):
+        """Calculates length of the line."""
+        return (self.points[1] - self.points[0]).length()
+
     def projection_coef(self, pt):
         """Returns the coefficient of projection point pt to this line. The valid result is in the range [0.0;1.0].
         If the result is less than 0.0 or more than 1.0, there is no projection the point to this line."""
@@ -62,7 +66,7 @@ class Line2(object):
         l = v2.length_squared()
         if l == 0.0:
             return 0.0
-        return (pt - self.points[0]).dot(v2) / l
+        return (Vec2(pt[0], pt[1]) - self.points[0]).dot(v2) / l
 
     def project(self, proj_coef):
         """Returns the 2D point projected to the line according to projection coefficient proj_coef.
@@ -83,9 +87,15 @@ class Line2(object):
         """Returns the shortest squared distance between the point pt and the line."""
         v2 = self.points[1] - self.points[0]
         l = v2.length_squared()
+        v = Vec2(pt[0], pt[1]) - self.points[0]
         if l == 0.0:
-            return (pt - self.points[0]).length_squared()
-        cp = (Vec2(pt[0], pt[1]) - self.points[0]).cross(v2)
+            return v.length_squared()
+        t = v.dot(v2) / l
+        if t < 0.0:
+            return v.length_squared()
+        if t > 1.0:
+            return (Vec2(pt[0], pt[1]) - self.points[1]).length_squared()
+        cp = v.cross(v2)
         return cp * cp / l
 
     def distance(self, pt):

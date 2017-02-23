@@ -2,6 +2,7 @@ from vec2 import Vec2
 from functions import almost_equal
 from line2 import Line2
 import copy
+import math
 
 
 class Tri2(object):
@@ -85,3 +86,41 @@ class Tri2(object):
             return False
         c = 1.0 - a - b
         return 0.0 < c < 1.0
+
+    def edge(self, index):
+        """Returns an edge of triangle as 2D line. Index must be in the range [0;2]."""
+        if index < 0 or index > 2:
+            raise ValueError("Index must be in the range [0;2]")
+        return Line2(self.points[index], self.points[(index + 1) % 3])
+
+    def distance_squared(self, pt):
+        """Returns the shortest squared distance between point pt and the triangle."""
+        min_dist = self.edge(0).distance_squared(pt)
+        for i in range(1, 3):
+            d = self.edge(i).distance_squared(pt)
+            if d < min_dist:
+                min_dist = d
+        return min_dist
+
+    def nearest_edge_index(self, pt):
+        """Returns index of the nearest edge to point pt."""
+        min_index = 0
+        min_dist = self.edge(min_index).distance_squared(pt)
+        for i in range(1, 3):
+            d = self.edge(i).distance_squared(pt)
+            if d < min_dist:
+                min_dist = d
+                min_index = i
+        return min_index
+
+    def distance(self, pt):
+        """Returns the shortest distance between point pt and the triangle."""
+        return math.sqrt(self.distance_squared(pt))
+
+    def square(self):
+        """Calculates square of the triangle."""
+        a = self.edge(0).length()
+        b = self.edge(1).length()
+        c = self.edge(2).length()
+        p = (a + b + c) * 0.5
+        return math.sqrt(p * (p - a) * (p - b) * (p - c))

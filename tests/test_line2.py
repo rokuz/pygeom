@@ -80,5 +80,7 @@ def test_distance():
     line = Line2(Vec2(0.0, 0.0), Vec2(5.0, 0.0))
     assert almost_equal(line.distance_squared(Vec2(2.0, 4.0)), 16.0)
     assert almost_equal(line.distance(Vec2(2.0, -4.0)), 4.0)
+    assert almost_equal(line.distance_squared(Vec2(7.0, 0.0)), 4.0)
+    assert almost_equal(line.distance(Vec2(-2.0, 0.0)), 2.0)
     line2 = Line2([5.0, 0.0], Vec2(5.0, 0.0))
     assert almost_equal(line2.distance_squared(Vec2(5.0, 0.0)), 0.0)
