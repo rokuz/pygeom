@@ -17,6 +17,7 @@ The following classes are available:
     - Mathematical operations;
     - Comparison operations;
     - Special vector operations: length, normalization, dot and cross products.
+
 ##License
 MIT License
 
