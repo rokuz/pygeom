@@ -137,10 +137,12 @@ class Vec2(vec2_gen.GenVec2):
         vector or on the right side (negative value)."""
         return self.x * v2[1] - self.y * v2[0]
 
+    @property
     def left_normal(self):
         """Calculates left normal vector to the current vector."""
         return Vec2(-self.y, self.x)
 
+    @property
     def right_normal(self):
         """Calculates right normal vector to the current vector."""
         return Vec2(self.y, -self.x)

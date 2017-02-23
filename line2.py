@@ -1,6 +1,7 @@
 from vec2 import Vec2
 from functions import lerp
 import copy
+import math
 
 
 class Line2(object):
@@ -47,11 +48,11 @@ class Line2(object):
 
     @property
     def left_normal(self):
-        return (self.points[1] - self.points[0]).left_normal()
+        return self.direction.left_normal
 
     @property
     def right_normal(self):
-        return (self.points[1] - self.points[0]).right_normal()
+        return self.direction.right_normal
 
     def projection_coef(self, pt):
         """Returns the coefficient of projection point pt to this line. The valid result is in the range [0.0;1.0].
@@ -59,9 +60,7 @@ class Line2(object):
         v2 = self.points[1] - self.points[0]
         l = v2.length_squared()
         if l == 0.0:
-            if self.points[0] == pt:
-                return 0.0
-            return -1.0
+            return 0.0
         return (pt - self.points[0]).dot(v2) / l
 
     def project(self, proj_coef):
@@ -78,3 +77,16 @@ class Line2(object):
             return self.project(self.projection_coef(pt))
         except ValueError:
             return None
+
+    def distance_squared(self, pt):
+        """Returns the shortest squared distance between the point pt and the line."""
+        v2 = self.points[1] - self.points[0]
+        l = v2.length_squared()
+        if l == 0.0:
+            return (pt - self.points[0]).length_squared()
+        cp = (pt - self.points[0]).cross(v2)
+        return cp * cp / l
+
+    def distance(self, pt):
+        """Returns the shortest distance between the point pt and the line."""
+        return math.sqrt(self.distance_squared(pt))

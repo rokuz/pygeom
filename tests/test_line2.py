@@ -14,7 +14,7 @@ def test_projections():
     assert line.projection_coef(Vec2(7.0, 1.0)) > 1.0
     line2 = Line2(Vec2(5.0, 0.0), Vec2(5.0, 0.0))
     assert almost_equal(line2.projection_coef(Vec2(5.0, 0.0)), 0.0)
-    assert line2.projection_coef(Vec2(4.0, 0.0)) < 0.0
+    assert almost_equal(line2.projection_coef(Vec2(4.0, 0.0)), 0.0)
 
     line = Line2(Vec2(0.0, 0.0), Vec2(5.0, 0.0))
     assert line.project(line.projection_coef(Vec2(2.0, 1.0))) == Vec2(2.0, 0.0)
@@ -54,5 +54,20 @@ def test_set_get():
         l[0] = [2.0, 2.0]
     with pytest.raises(ValueError):
         l[2] = Vec2(2.0, 2.0)
+    with pytest.raises(ValueError):
+        k = l[2]
     l[1] = Vec2(2.0, 2.0)
     assert l[1] == Vec2(2.0, 2.0)
+
+
+def test_directions():
+    l = Line2(Vec2(2.0, 0.0), Vec2(7.0, 0.0))
+    assert l.direction == [1.0, 0.0]
+    assert l.left_normal == [0.0, 1.0]
+    assert l.right_normal == [0.0, -1.0]
+
+
+def test_distance():
+    line = Line2(Vec2(0.0, 0.0), Vec2(5.0, 0.0))
+    assert almost_equal(line.distance_squared(Vec2(2.0, 4.0)), 16.0)
+    assert almost_equal(line.distance(Vec2(2.0, -4.0)), 4.0)

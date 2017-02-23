@@ -3,6 +3,7 @@
 
 # pygeom
 2d/3d math library.
+
 The following classes are available:
 - **Vec2**. It represents 2D vector.
     Features:
@@ -12,7 +13,8 @@ The following classes are available:
     - Special vector operations: length, normalization, dot and cross products.
 - **Line2**. It represents 2D line.
     Features:
-    - Projection of 2D point to the line;
+    - Projection of 2D point to line;
+    - The shortest distance between 2D point and line.
 - **Tri2**. It represents 2D triangle.
 - **Vec3**. It represents 3D vector.
     Features:
@@ -20,8 +22,12 @@ The following classes are available:
     - Mathematical operations;
     - Comparison operations;
     - Special vector operations: length, normalization, dot and cross products.
+    
+The following functions are available:
+- Linear interpolation;
+- Clamp and saturate in shader languages (GLSL, HLSL, etc.).
 
-##License
+##Authors and License
 MIT License
 
 Copyright (c) 2017 Roman Kuznetsov

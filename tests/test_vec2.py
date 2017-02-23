@@ -106,5 +106,5 @@ def test_cross():
 
 def test_normals():
     v1 = Vec2(2.0, 2.0)
-    assert v1.left_normal() == [-2.0, 2.0]
-    assert v1.right_normal() == [2.0, -2.0]
+    assert v1.left_normal == [-2.0, 2.0]
+    assert v1.right_normal == [2.0, -2.0]
