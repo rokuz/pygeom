@@ -23,7 +23,7 @@ class Vec3(vec3_gen.GenVec3):
         elif key == 2:
             return self.z
         else:
-            raise ValueError("Integer key required")
+            raise ValueError("Integer key in the range [0;2] required")
 
     def __setitem__(self, key, value):
         if key == 0:
@@ -33,7 +33,7 @@ class Vec3(vec3_gen.GenVec3):
         elif key == 2:
             self.z = value
         else:
-            raise ValueError("Integer key required")
+            raise ValueError("Integer key in the range [0;2] required")
 
     def __len__(self):
         return 3

@@ -6,4 +6,3 @@ class Tri2(object):
         assert isinstance(p1, Vec2) and isinstance(p2, Vec2) and isinstance(p3, Vec2)
         self.points = [p1, p2, p3]
 
-

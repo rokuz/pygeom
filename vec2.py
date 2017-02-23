@@ -16,7 +16,7 @@ class Vec2(vec2_gen.GenVec2):
         elif key == 1:
             return self.y
         else:
-            raise ValueError("Integer key required")
+            raise ValueError("Integer key in the range [0;1] required")
 
     def __setitem__(self, key, value):
         if key == 0:
@@ -24,7 +24,7 @@ class Vec2(vec2_gen.GenVec2):
         elif key == 1:
             self.y = value
         else:
-            raise ValueError("Integer key required")
+            raise ValueError("Integer key in the range [0;1] required")
 
     def __len__(self):
         return 2
