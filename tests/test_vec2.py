@@ -12,6 +12,18 @@ def test_construction():
     assert almost_equal(v.x, 1.0) and almost_equal(v.y, 2.5)
 
 
+def test_get_set():
+    v = Vec2()
+    v[0] = 1.0
+    assert almost_equal(v.x, 1.0)
+    v[1] = 2.0
+    assert almost_equal(v.y, 2.0)
+    with pytest.raises(ValueError):
+        v[2] = 1.0
+    with pytest.raises(ValueError):
+        k = v[2]
+
+
 def test_swizzle():
     v = Vec2(1.0, 2.5)
     assert almost_equal(v.xx.x, 1.0) and almost_equal(v.xx.y, 1.0)
@@ -49,6 +61,7 @@ def test_copy():
 def test_compare():
     v = Vec2(2.0, 1.0)
     assert v == [2.0, 1.0]
+    assert v != [2.0, 2.0]
     assert v < Vec2(3.0, 0.0)
     assert v < Vec2(2.0, 2.0)
     assert v > Vec2(1.0, 0.0)

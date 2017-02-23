@@ -23,6 +23,20 @@ def test_swizzle():
     assert v.zx == Vec2(3.0, 5.0)
 
 
+def test_get_set():
+    v = Vec3()
+    v[0] = 1.0
+    assert almost_equal(v.x, 1.0)
+    v[1] = 2.0
+    assert almost_equal(v.y, 2.0)
+    v[2] = 3.0
+    assert almost_equal(v.z, 3.0)
+    with pytest.raises(ValueError):
+        v[3] = 1.0
+    with pytest.raises(ValueError):
+        k = v[3]
+
+
 def test_arithmetic():
     v = Vec3(3.0, 4.0, 1.0) + Vec3(1.0, 2.0, 1.0)
     assert almost_equal(v.x, 4.0) and almost_equal(v.y, 6.0) and almost_equal(v.z, 2.0)
@@ -51,6 +65,7 @@ def test_copy():
 def test_compare():
     v = Vec3(2.0, 1.0, 3.0)
     assert v == [2.0, 1.0, 3.0]
+    assert v != [2.0, 2.0, 3.0]
     assert v < Vec3(3.0, 0.0, 0.0)
     assert v < Vec3(2.0, 2.0, 0.0)
     assert v < Vec3(2.0, 2.0, 4.0)

@@ -8,6 +8,8 @@ def almost_equal(v1, v2, eps=1e-5):
 
 def lerp(a, b, t):
     """Performs linear interpolation between a and b. t must be in range [0;1]."""
+    if t < 0.0 or t > 1.0:
+        raise ValueError("t must be in the range [0.0;1.0]")
     return a * (1.0 - t) + b * t
 
 

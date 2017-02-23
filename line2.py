@@ -68,7 +68,7 @@ class Line2(object):
         """Returns the 2D point projected to the line according to projection coefficient proj_coef.
         The coefficient must be in the range [0.0;1.0] otherwise ValueError raises."""
         if proj_coef < 0.0 or proj_coef > 1.0:
-            raise ValueError("proj_coef must be range [0.0;1.0]")
+            raise ValueError("proj_coef must be in the range [0.0;1.0]")
         return lerp(self.points[0], self.points[1], proj_coef)
 
     def project_point(self, pt):
