@@ -65,7 +65,15 @@ class Vec2(vec2_gen.GenVec2):
     def __div__(self, scalar):
         return Vec2(self.x / scalar, self.y / scalar)
 
+    def __truediv__(self, scalar):
+        return Vec2(self.x / scalar, self.y / scalar)
+
     def __idiv__(self, scalar):
+        self.x /= scalar
+        self.y /= scalar
+        return self
+
+    def __itruediv__(self, scalar):
         self.x /= scalar
         self.y /= scalar
         return self

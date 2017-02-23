@@ -77,7 +77,16 @@ class Vec3(vec3_gen.GenVec3):
     def __div__(self, scalar):
         return Vec3(self.x / scalar, self.y / scalar, self.z / scalar)
 
+    def __truediv__(self, scalar):
+        return Vec3(self.x / scalar, self.y / scalar, self.z / scalar)
+
     def __idiv__(self, scalar):
+        self.x /= scalar
+        self.y /= scalar
+        self.z /= scalar
+        return self
+
+    def __itruediv__(self, scalar):
         self.x /= scalar
         self.y /= scalar
         self.z /= scalar
