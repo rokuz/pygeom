@@ -11,6 +11,8 @@ def test_construction():
     assert almost_equal(v.x, 0.0) and almost_equal(v.y, 0.0)
     v = Vec2(1.0, 2.5)
     assert almost_equal(v.x, 1.0) and almost_equal(v.y, 2.5)
+    assert len(v) == 2
+    print(v)
 
 
 def test_get_set():
@@ -30,6 +32,7 @@ def test_swizzle():
     assert almost_equal(v.xx.x, 1.0) and almost_equal(v.xx.y, 1.0)
     assert almost_equal(v.yy.x, 2.5) and almost_equal(v.yy.y, 2.5)
     v.xy = [5.0, 6.0]
+    assert v.xy == Vec2(5.0, 6.0)
     assert almost_equal(v.x, 5.0) and almost_equal(v.y, 6.0)
     assert almost_equal(v.yx.x, 6.0) and almost_equal(v.yx.y, 5.0)
     v.yx = [5.0, 6.0]
@@ -49,6 +52,10 @@ def test_arithmetic():
         v /= 0.0
     v = -v
     assert almost_equal(v.x, -3.5) and almost_equal(v.y, -2.5)
+    v -= [0.0, 1.0]
+    assert almost_equal(v.x, -3.5) and almost_equal(v.y, -3.5)
+    v2 = v / 3.5
+    assert almost_equal(v2.x, -1.0) and almost_equal(v2.y, -1.0)
 
 
 def test_copy():

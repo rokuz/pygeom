@@ -6,20 +6,21 @@ import math
 
 class Line2(object):
     def __init__(self, p1, p2):
-        assert isinstance(p1, Vec2) and isinstance(p2, Vec2)
-        self.points = [p1, p2]
+        if len(p1) < 2 or len(p2) < 2:
+            raise ValueError("Length of p1, p2 must be 2 at least.")
+        self.points = [Vec2(p1[0], p1[1]), Vec2(p2[0], p2[1])]
 
     def __getitem__(self, key):
         if key < 0 or key > 1:
-            raise ValueError("Integer key in the range [0;1] required")
+            raise ValueError("Integer key in the range [0;1] required.")
         return self.points[key]
 
     def __setitem__(self, key, value):
-        if not isinstance(value, Vec2):
-            raise TypeError("Type of value must be Vec2")
+        if len(value) < 2:
+            raise ValueError("Value length must be 2 at least.")
         if key < 0 or key > 1:
-            raise ValueError("Integer key in the range [0;1] required")
-        self.points[key] = value
+            raise ValueError("Integer key in the range [0;1] required.")
+        self.points[key] = Vec2(value[0], value[1])
 
     def __len__(self):
         return 2
@@ -84,7 +85,7 @@ class Line2(object):
         l = v2.length_squared()
         if l == 0.0:
             return (pt - self.points[0]).length_squared()
-        cp = (pt - self.points[0]).cross(v2)
+        cp = (Vec2(pt[0], pt[1]) - self.points[0]).cross(v2)
         return cp * cp / l
 
     def distance(self, pt):

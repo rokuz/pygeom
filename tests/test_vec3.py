@@ -13,6 +13,8 @@ def test_construction():
     v = Vec3(1.0, 2.5, 3.0)
     assert almost_equal(v.x, 1.0) and almost_equal(v.y, 2.5) and almost_equal(v.z, 3.0)
     assert Vec3.from_vec2(Vec2(3.0, 4.0)) == [3.0, 4.0, 0.0]
+    assert len(v) == 3
+    print(v)
 
 
 def test_swizzle():
@@ -23,8 +25,15 @@ def test_swizzle():
     assert v == [5.0, 6.0, 3.0]
     v.yx = [6.0, 5.0]
     assert v == [5.0, 6.0, 3.0]
-    assert v.zyx == Vec3(3.0, 6.0, 5.0)
+    assert v.xy == Vec3(5.0, 6.0)
     assert v.zx == Vec2(3.0, 5.0)
+    assert v.xz == Vec2(5.0, 3.0)
+    assert v.zyx == Vec3(3.0, 6.0, 5.0)
+    assert v.yxx == Vec3(6.0, 5.0, 5.0)
+    assert v.yxy == Vec3(6.0, 5.0, 6.0)
+    assert v.yyx == Vec3(6.0, 6.0, 5.0)
+    assert v.xzz == Vec3(5.0, 3.0, 3.0)
+    assert v.xxz == Vec3(5.0, 5.0, 3.0)
     assert v.xyz == Vec3(5.0, 6.0, 3.0)
     assert v.xyx == Vec3(5.0, 6.0, 5.0)
     assert v.xzx == Vec3(5.0, 3.0, 5.0)
@@ -39,14 +48,25 @@ def test_swizzle():
     assert v.zzz == Vec3(3.0, 3.0, 3.0)
     assert v.yxz == Vec3(6.0, 5.0, 3.0)
     assert v.yzx == Vec3(6.0, 3.0, 5.0)
+    assert v.yyz == Vec3(6.0, 6.0, 3.0)
+    assert v.yzy == Vec3(6.0, 3.0, 6.0)
+    assert v.yzz == Vec3(6.0, 3.0, 3.0)
+    assert v.zxx == Vec3(3.0, 5.0, 5.0)
+    assert v.zxz == Vec3(3.0, 5.0, 3.0)
+    assert v.zyy == Vec3(3.0, 6.0, 6.0)
+    assert v.zyz == Vec3(3.0, 6.0, 3.0)
     assert almost_equal(v.xx.x, 5.0) and almost_equal(v.xx.y, 5.0)
     assert almost_equal(v.yy.x, 6.0) and almost_equal(v.yy.y, 6.0)
     assert almost_equal(v.yx.x, 6.0) and almost_equal(v.yx.y, 5.0)
     v.xz = [3.0, 6.0]
     assert v == [3.0, 6.0, 6.0]
+    assert v.zy == Vec2(6.0, 6.0)
     v.zx = [4.0, 5.0]
     assert v == [5.0, 6.0, 4.0]
     assert v.xx == Vec2(5.0, 5.0)
+    assert v.zz == Vec2(4.0, 4.0)
+    v.zy = [2.0, 3.0]
+    assert v == [5.0, 3.0, 2.0]
     v.zxy = [1.0, 2.0, 3.0]
     assert v == [2.0, 3.0, 1.0]
     v.yxz = [1.0, 2.0, 3.0]
@@ -55,6 +75,10 @@ def test_swizzle():
     assert v == [3.0, 1.0, 2.0]
     v.zyx = [1.0, 2.0, 3.0]
     assert v == [3.0, 2.0, 1.0]
+    v.xyz = [1.0, 2.0, 3.0]
+    assert v == [1.0, 2.0, 3.0]
+    v.xzy = [1.0, 2.0, 3.0]
+    assert v == [1.0, 3.0, 2.0]
 
 
 def test_get_set():
@@ -92,6 +116,8 @@ def test_arithmetic():
     assert almost_equal(v3.x, -1.5) and almost_equal(v3.y, -1.0) and almost_equal(v3.z, -0.5)
     v4 = v3 * 3.0
     assert almost_equal(v4.x, -4.5) and almost_equal(v4.y, -3.0) and almost_equal(v4.z, -1.5)
+    v4 -= Vec3(1.5, 0.0, 1.5)
+    assert almost_equal(v4.x, -6.0) and almost_equal(v4.y, -3.0) and almost_equal(v4.z, -3.0)
 
 
 def test_copy():

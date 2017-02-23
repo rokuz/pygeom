@@ -5,6 +5,15 @@ from vec2 import Vec2
 from functions import almost_equal
 
 
+def test_construction():
+    l = Line2(Vec2(0.0, 0.0), Vec2(0.0, 2.0))
+    assert l[0] == Vec2(0.0, 0.0) and l.points[1] == Vec2(0.0, 2.0)
+    with pytest.raises(ValueError):
+        l2 = Line2([0.0, 0.0], [2.0])
+    assert len(l) == 2
+    print(l)
+
+
 def test_projections():
     line = Line2(Vec2(0.0, 0.0), Vec2(5.0, 0.0))
     assert almost_equal(line.projection_coef(Vec2(5.0, -1.0)), 1.0)
@@ -50,13 +59,13 @@ def test_set_get():
     l = Line2(Vec2(2.0, 1.0), Vec2(3.0, 5.0))
     assert l[0] == Vec2(2.0, 1.0)
     assert l[1] == Vec2(3.0, 5.0)
-    with pytest.raises(TypeError):
-        l[0] = [2.0, 2.0]
+    with pytest.raises(ValueError):
+        l[0] = [2.0]
     with pytest.raises(ValueError):
         l[2] = Vec2(2.0, 2.0)
     with pytest.raises(ValueError):
         k = l[2]
-    l[1] = Vec2(2.0, 2.0)
+    l[1] = [2.0, 2.0]
     assert l[1] == Vec2(2.0, 2.0)
 
 
@@ -71,3 +80,5 @@ def test_distance():
     line = Line2(Vec2(0.0, 0.0), Vec2(5.0, 0.0))
     assert almost_equal(line.distance_squared(Vec2(2.0, 4.0)), 16.0)
     assert almost_equal(line.distance(Vec2(2.0, -4.0)), 4.0)
+    line2 = Line2([5.0, 0.0], Vec2(5.0, 0.0))
+    assert almost_equal(line2.distance_squared(Vec2(5.0, 0.0)), 0.0)
