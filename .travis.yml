@@ -8,4 +8,4 @@ install:
 script:
   - python -m pytest --cov-report term-missing --cov . -v tests/
 after_success:
-  - if [[ $ENV == python=2.7* ]]; then coveralls; fi
+  coveralls
