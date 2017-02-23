@@ -1,5 +1,7 @@
-# pygeom
 [![Build Status](https://travis-ci.org/rokuz/pygeom.svg?branch=master)](https://travis-ci.org/rokuz/pygeom)
+[![Coverage Status](https://coveralls.io/repos/github/rokuz/pygeom/badge.svg?branch=master)](https://coveralls.io/github/rokuz/pygeom?branch=master)
+
+# pygeom
 2d/3d math library.
 The following classes are available:
 - **Vec2**. It represents 2D vector.
