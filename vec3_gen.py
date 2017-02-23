@@ -5,9 +5,9 @@ import vec3
 
 class GenVec3(object):
     def __init__(self, x, y, z):
-        self.x = x
-        self.y = y
-        self.z = z
+        self.x = 1.0 * x
+        self.y = 1.0 * y
+        self.z = 1.0 * z
 
     @property
     def xx(self):

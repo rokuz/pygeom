@@ -1,5 +1,6 @@
 import pytest
 import math
+import geom_exceptions
 from functions import almost_equal
 from copy import copy, deepcopy
 from vec2 import Vec2
@@ -77,6 +78,8 @@ def test_length():
     assert almost_equal(v2.length_squared(), 1.0) and not almost_equal(v.length_squared(), 1.0)
     v.normalize()
     assert almost_equal(v.length(), 1.0)
+    with pytest.raises(geom_exceptions.VectorException):
+        Vec2().normalize()
 
 
 def test_dot():

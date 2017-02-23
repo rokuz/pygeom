@@ -5,8 +5,8 @@ import vec2
 
 class GenVec2(object):
     def __init__(self, x, y):
-        self.x = x
-        self.y = y\n\n""".format(__file__[str(__file__).rfind('pygeom'):])
+        self.x = 1.0 * x
+        self.y = 1.0 * y\n\n""".format(__file__[str(__file__).rfind('pygeom'):])
 
 
 def generate_header_vec3():
@@ -17,9 +17,9 @@ import vec3
 
 class GenVec3(object):
     def __init__(self, x, y, z):
-        self.x = x
-        self.y = y
-        self.z = z\n\n""".format(__file__[str(__file__).rfind('pygeom'):])
+        self.x = 1.0 * x
+        self.y = 1.0 * y
+        self.z = 1.0 * z\n\n""".format(__file__[str(__file__).rfind('pygeom'):])
 
 
 def generate_swizzle_vec2(arr, result):

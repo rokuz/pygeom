@@ -4,8 +4,8 @@ import vec2
 
 class GenVec2(object):
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self.x = 1.0 * x
+        self.y = 1.0 * y
 
     @property
     def xx(self):

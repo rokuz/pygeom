@@ -1,6 +1,6 @@
 import math
 import copy
-import exceptions
+import geom_exceptions
 import functions
 import vec2_gen
 
@@ -115,7 +115,7 @@ class Vec2(vec2_gen.GenVec2):
         """Performs vector normalization. Raises VectorException in case of zero length."""
         ls = self.length_squared()
         if ls == 0.0:
-            raise exceptions.VectorException("Zero-length normalization")
+            raise geom_exceptions.VectorException("Zero-length normalization")
         l = math.sqrt(ls)
         self.x /= l
         self.y /= l

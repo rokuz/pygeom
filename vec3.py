@@ -1,6 +1,6 @@
 import math
 import copy
-import exceptions
+import geom_exceptions
 import functions
 import vec3_gen
 
@@ -10,10 +10,9 @@ class Vec3(vec3_gen.GenVec3):
     def __init__(self, x=0.0, y=0.0, z=0.0):
         vec3_gen.GenVec3.__init__(self, x, y, z)
 
-    def from_vec2(self, v):
-        self.x = v[0]
-        self.y = v[1]
-        self.z = 0.0
+    @staticmethod
+    def from_vec2(v):
+        return Vec3(v[0], v[1], 0.0)
 
     def __getitem__(self, key):
         if key == 0:
@@ -135,7 +134,7 @@ class Vec3(vec3_gen.GenVec3):
         """Performs vector normalization. Raises VectorException in case of zero length."""
         ls = self.length_squared()
         if ls == 0.0:
-            raise exceptions.VectorException("Zero-length normalization")
+            raise geom_exceptions.VectorException("Zero-length normalization")
         l = math.sqrt(ls)
         self.x /= l
         self.y /= l

@@ -44,3 +44,15 @@ def test_compare_negation():
     assert l != Line2(Vec2(3.0, 1.0), Vec2(3.0, 5.0))
     assert l == Line2(Vec2(2.0, 1.0), Vec2(3.0, 5.0))
     assert -l == Line2(Vec2(3.0, 5.0), Vec2(2.0, 1.0))
+
+
+def test_set_get():
+    l = Line2(Vec2(2.0, 1.0), Vec2(3.0, 5.0))
+    assert l[0] == Vec2(2.0, 1.0)
+    assert l[1] == Vec2(3.0, 5.0)
+    with pytest.raises(TypeError):
+        l[0] = [2.0, 2.0]
+    with pytest.raises(ValueError):
+        l[2] = Vec2(2.0, 2.0)
+    l[1] = Vec2(2.0, 2.0)
+    assert l[1] == Vec2(2.0, 2.0)

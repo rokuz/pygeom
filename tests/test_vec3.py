@@ -1,5 +1,6 @@
 import pytest
 import math
+import geom_exceptions
 from functions import almost_equal
 from copy import copy, deepcopy
 from vec2 import Vec2
@@ -11,6 +12,7 @@ def test_construction():
     assert almost_equal(v.x, 0.0) and almost_equal(v.y, 0.0) and almost_equal(v.z, 0.0)
     v = Vec3(1.0, 2.5, 3.0)
     assert almost_equal(v.x, 1.0) and almost_equal(v.y, 2.5) and almost_equal(v.z, 3.0)
+    assert Vec3.from_vec2(Vec2(3.0, 4.0)) == [3.0, 4.0, 0.0]
 
 
 def test_swizzle():
@@ -21,6 +23,16 @@ def test_swizzle():
     assert v == [5.0, 6.0, 3.0]
     assert v.zyx == Vec3(3.0, 6.0, 5.0)
     assert v.zx == Vec2(3.0, 5.0)
+    assert v.xyz == Vec3(5.0, 6.0, 3.0)
+    assert v.xzy == Vec3(5.0, 3.0, 6.0)
+    assert v.xyy == Vec3(5.0, 6.0, 6.0)
+    assert v.yyy == Vec3(6.0, 6.0, 6.0)
+    assert v.xxy == Vec3(5.0, 5.0, 6.0)
+    assert v.xxx == Vec3(5.0, 5.0, 5.0)
+    assert v.zzy == Vec3(3.0, 3.0, 6.0)
+    assert v.zxy == Vec3(3.0, 5.0, 6.0)
+    assert v.zzx == Vec3(3.0, 3.0, 5.0)
+    assert v.zzz == Vec3(3.0, 3.0, 3.0)
 
 
 def test_get_set():
@@ -52,6 +64,12 @@ def test_arithmetic():
         v /= 0.0
     v = -v
     assert almost_equal(v.x, -3.5) and almost_equal(v.y, -2.5) and almost_equal(v.z, -1.0)
+    v2 = v - [-0.5, -0.5, 0.0]
+    assert almost_equal(v2.x, -3.0) and almost_equal(v2.y, -2.0) and almost_equal(v2.z, -1.0)
+    v3 = v2 / 2.0
+    assert almost_equal(v3.x, -1.5) and almost_equal(v3.y, -1.0) and almost_equal(v3.z, -0.5)
+    v4 = v3 * 3.0
+    assert almost_equal(v4.x, -4.5) and almost_equal(v4.y, -3.0) and almost_equal(v4.z, -1.5)
 
 
 def test_copy():
@@ -69,6 +87,7 @@ def test_compare():
     assert v < Vec3(3.0, 0.0, 0.0)
     assert v < Vec3(2.0, 2.0, 0.0)
     assert v < Vec3(2.0, 2.0, 4.0)
+    assert v < Vec3(2.0, 1.0, 4.0)
     assert v > Vec3(1.0, 0.0, 0.0)
     assert v > Vec3(2.0, 0.0, 0.0)
     assert v > Vec3(2.0, 1.0, 0.0)
@@ -83,6 +102,8 @@ def test_length():
     assert almost_equal(v2.length_squared(), 1.0) and not almost_equal(v.length_squared(), 1.0)
     v.normalize()
     assert almost_equal(v.length(), 1.0)
+    with pytest.raises(geom_exceptions.VectorException):
+        Vec3().normalize()
 
 
 def test_dot():
