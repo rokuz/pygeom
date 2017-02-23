@@ -21,9 +21,13 @@ def test_swizzle():
     assert almost_equal(v.yyy.x, 2.5) and almost_equal(v.yyy.y, 2.5) and almost_equal(v.yyy.z, 2.5)
     v.xy = [5.0, 6.0]
     assert v == [5.0, 6.0, 3.0]
+    v.yx = [6.0, 5.0]
+    assert v == [5.0, 6.0, 3.0]
     assert v.zyx == Vec3(3.0, 6.0, 5.0)
     assert v.zx == Vec2(3.0, 5.0)
     assert v.xyz == Vec3(5.0, 6.0, 3.0)
+    assert v.xyx == Vec3(5.0, 6.0, 5.0)
+    assert v.xzx == Vec3(5.0, 3.0, 5.0)
     assert v.xzy == Vec3(5.0, 3.0, 6.0)
     assert v.xyy == Vec3(5.0, 6.0, 6.0)
     assert v.yyy == Vec3(6.0, 6.0, 6.0)
@@ -33,6 +37,24 @@ def test_swizzle():
     assert v.zxy == Vec3(3.0, 5.0, 6.0)
     assert v.zzx == Vec3(3.0, 3.0, 5.0)
     assert v.zzz == Vec3(3.0, 3.0, 3.0)
+    assert v.yxz == Vec3(6.0, 5.0, 3.0)
+    assert v.yzx == Vec3(6.0, 3.0, 5.0)
+    assert almost_equal(v.xx.x, 5.0) and almost_equal(v.xx.y, 5.0)
+    assert almost_equal(v.yy.x, 6.0) and almost_equal(v.yy.y, 6.0)
+    assert almost_equal(v.yx.x, 6.0) and almost_equal(v.yx.y, 5.0)
+    v.xz = [3.0, 6.0]
+    assert v == [3.0, 6.0, 6.0]
+    v.zx = [4.0, 5.0]
+    assert v == [5.0, 6.0, 4.0]
+    assert v.xx == Vec2(5.0, 5.0)
+    v.zxy = [1.0, 2.0, 3.0]
+    assert v == [2.0, 3.0, 1.0]
+    v.yxz = [1.0, 2.0, 3.0]
+    assert v == [2.0, 1.0, 3.0]
+    v.yzx = [1.0, 2.0, 3.0]
+    assert v == [3.0, 1.0, 2.0]
+    v.zyx = [1.0, 2.0, 3.0]
+    assert v == [3.0, 2.0, 1.0]
 
 
 def test_get_set():
