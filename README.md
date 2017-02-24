@@ -20,7 +20,8 @@ The following classes are available:
     - Checking for degeneration;
     - Checking for point inside.
     - The shortest distance between 2D point and triangle.
-    - Special triangle operations: square.
+    - Special triangle features: square, incenter, circumcenter, incircle radius,
+    circumcircle radius.
 - **Vec3**. It represents 3D vector.
     Features:
     - Swizzling like in shader languages (GLSL, HLSL, etc.);

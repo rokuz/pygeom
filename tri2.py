@@ -1,6 +1,7 @@
 from vec2 import Vec2
 from functions import almost_equal
 from line2 import Line2
+from geom_exceptions import TriangleException
 import copy
 import math
 
@@ -124,3 +125,56 @@ class Tri2(object):
         c = self.edge(2).length()
         p = (a + b + c) * 0.5
         return math.sqrt(p * (p - a) * (p - b) * (p - c))
+
+    def get_point_inside(self, barycentric):
+        """Calculates a point inside triangle by means of barycentric coordinates.
+        Sum of barycentric coordinates must be equal to 1."""
+        if not almost_equal(barycentric[0] + barycentric[1] + barycentric[2], 1.0):
+            raise ValueError("Sum of barycentric coordinates must be equal to 1.")
+        return self.points[0] * barycentric[0] + self.points[1] * barycentric[1] + self.points[2] * barycentric[2]
+
+    def incenter(self):
+        """Calculates incenter of the triangle."""
+        a = self.edge(1).length()
+        b = self.edge(2).length()
+        c = self.edge(0).length()
+        p = a + b + c
+        if p == 0.0:
+            return self.points[0]
+        return (self.points[0] * a + self.points[1] * b + self.points[2] * c) / p
+
+    def incircle_radius(self):
+        """Calculates incircle radius of the triangle."""
+        a = self.edge(0).length()
+        b = self.edge(1).length()
+        c = self.edge(2).length()
+        p = (a + b + c) * 0.5
+        if p == 0.0:
+            return 0.0
+        return math.sqrt((p - a) * (p - b) * (p - c) / p)
+
+    def circumcenter(self):
+        """Calculates circumcenter of the triangle. TriangleException raises if the triangle is degenerate."""
+        p01 = self.points[0] - self.points[1]
+        p02 = self.points[0] - self.points[2]
+        p12 = self.points[1] - self.points[2]
+        d = 2.0 * (self.points[0].x * p12.y - self.points[1].x * p02.y + self.points[2].x * p01.y)
+        if d == 0.0:
+            raise TriangleException("Circumcenter couldn't be calculated for a degenerate triangle")
+        l0 = self.points[0].length_squared()
+        l1 = self.points[1].length_squared()
+        l2 = self.points[2].length_squared()
+        x = (l0 * p12.y - l1 * p02.y + l2 * p01.y) / d
+        y = (l1 * p02.x - l0 * p12.x - l2 * p01.x) / d
+        return Vec2(x, y)
+
+    def circumcircle_radius(self):
+        """Calculates circumcircle radius of the triangle. TriangleException raises if the triangle is degenerate."""
+        a = self.edge(0)
+        b = self.edge(1)
+        c = self.edge(2)
+        d = 2.0 * math.fabs(a.as_vector().cross(b.as_vector()))
+        if d == 0.0:
+            raise TriangleException("Circumcircle radius couldn't be calculated for a degenerate triangle")
+        return a.length() * b.length() * c.length() / d
+

@@ -1,9 +1,11 @@
 import pytest
 import copy
+import math
 from tri2 import Tri2
 from vec2 import Vec2
 from line2 import Line2
 from functions import almost_equal
+from geom_exceptions import TriangleException
 
 
 def test_construction():
@@ -105,3 +107,46 @@ def test_square():
     assert almost_equal(t.square(), 12.5)
     t2 = Tri2(Vec2(0.0, 5.0), Vec2(0.0, 5.0), Vec2(0.0, 5.0))
     assert almost_equal(t2.square(), 0.0)
+    t2 = Tri2(Vec2(0.0, 0.0), Vec2(0.0, 2.0), Vec2(0.0, 5.0))
+    assert almost_equal(t2.square(), 0.0)
+
+
+def test_barycentric():
+    t = Tri2(Vec2(0.0, 0.0), Vec2(0.0, 5.0), Vec2(5.0, 0.0))
+    assert t.get_point_inside([1.0, 0.0, 0.0]) == Vec2(0.0, 0.0)
+    assert t.get_point_inside([0.0, 1.0, 0.0]) == Vec2(0.0, 5.0)
+    assert t.get_point_inside([0.0, 0.0, 1.0]) == Vec2(5.0, 0.0)
+    with pytest.raises(ValueError):
+        t.get_point_inside([1.0, 1.0, 0.0])
+    assert t.get_point_inside([0.5, 0.5, 0.0]) == Vec2(0.0, 2.5)
+    assert t.get_point_inside([0.0, 0.5, 0.5]) == Vec2(2.5, 2.5)
+    assert t.get_point_inside([0.5, 0.0, 0.5]) == Vec2(2.5, 0.0)
+
+
+def test_circles():
+    t = Tri2(Vec2(0.0, 0.0), Vec2(0.0, 1.0), Vec2(1.0, 0.0))
+    c = t.incenter()
+    d = t.distance(c)
+    r = t.incircle_radius()
+    assert almost_equal(d, r)
+    assert t.circumcenter() == Vec2(0.5, 0.5)
+    assert almost_equal(t.circumcircle_radius(), 0.5 * math.sqrt(2.0))
+    t2 = Tri2(Vec2(0.0, 1.0), Vec2(0.0, 1.0), Vec2(0.0, 1.0))
+    assert t2.incenter() == Vec2(0.0, 1.0)
+    assert almost_equal(t2.incircle_radius(), 0.0)
+    with pytest.raises(TriangleException):
+        t2.circumcenter()
+    with pytest.raises(TriangleException):
+        t2.circumcircle_radius()
+    t3 = Tri2(Vec2(0.0, 1.0), Vec2(0.0, 3.0), Vec2(0.0, 5.0))
+    assert t3.incenter() == Vec2(0.0, 3.0)
+    assert almost_equal(t3.incircle_radius(), 0.0)
+    with pytest.raises(TriangleException):
+        t3.circumcenter()
+    with pytest.raises(TriangleException):
+        almost_equal(t3.circumcircle_radius(), 0.0)
+    t4 = Tri2(Vec2(-0.5, -math.sqrt(3) / 6.0), Vec2(0.5, -math.sqrt(3) / 6.0), Vec2(0.0, math.sqrt(3) / 3.0))
+    assert t4.incenter() == Vec2(0.0, 0.0)
+    assert t4.circumcenter() == Vec2(0.0, 0.0)
+    assert almost_equal(t4.incircle_radius(), math.sqrt(3) / 6.0)
+    assert almost_equal(t4.circumcircle_radius(), math.sqrt(3) / 3.0)

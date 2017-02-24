@@ -55,6 +55,9 @@ class Line2(object):
     def right_normal(self):
         return self.direction.right_normal
 
+    def as_vector(self):
+        return self.points[1] - self.points[0]
+
     def length(self):
         """Calculates length of the line."""
         return (self.points[1] - self.points[0]).length()
