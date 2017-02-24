@@ -178,3 +178,17 @@ class Tri2(object):
             raise TriangleException("Circumcircle radius couldn't be calculated for a degenerate triangle")
         return a.length() * b.length() * c.length() / d
 
+    def get_connectivity(self, other):
+        """Calculated connectivity between 2 triangles. The result is array of integers.
+        Each pair is indices of connected edges. It there are 6 indices in the array then the triangle covers
+        the same area."""
+        result = []
+        for i in range(0, 3):
+            for j in range(0, 3):
+                edge1 = self.edge(i)
+                edge2 = other.edge(j)
+                if edge1 == edge2 or edge1 == -edge2:
+                    result.append(i)
+                    result.append(j)
+        return result
+

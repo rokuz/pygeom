@@ -20,6 +20,7 @@ The following classes are available:
     - Checking for degeneration;
     - Checking for point inside.
     - The shortest distance between 2D point and triangle.
+    - Calculation connectivity between 2 triangles;
     - Special triangle features: square, incenter, circumcenter, incircle radius,
     circumcircle radius.
 - **Vec3**. It represents 3D vector.

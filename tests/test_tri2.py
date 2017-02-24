@@ -150,3 +150,17 @@ def test_circles():
     assert t4.circumcenter() == Vec2(0.0, 0.0)
     assert almost_equal(t4.incircle_radius(), math.sqrt(3) / 6.0)
     assert almost_equal(t4.circumcircle_radius(), math.sqrt(3) / 3.0)
+
+
+def test_connectivity():
+    t = Tri2(Vec2(0.0, 0.0), Vec2(0.0, 1.0), Vec2(1.0, 0.0))
+    t2 = Tri2(Vec2(1.0, 0.0), Vec2(4.0, 4.0), Vec2(0.0, 1.0))
+    c = t.get_connectivity(t2)
+    assert c[0] == 1 and c[1] == 2
+    t3 = Tri2(Vec2(2.0, 0.0), Vec2(4.0, 4.0), Vec2(0.0, 1.0))
+    assert len(t.get_connectivity(t3)) == 0
+    c = t.get_connectivity(t)
+    assert len(c) == 6 and c[0] == 0 and c[1] == 0 and c[2] == 1 and c[3] == 1 and c[4] == 2 and c[5] == 2
+    t4 = Tri2(Vec2(1.0, 0.0), Vec2(0.0, 0.0), Vec2(0.0, 1.0))
+    c = t.get_connectivity(t4)
+    assert len(c) == 6 and c[0] == 0 and c[1] == 1 and c[2] == 1 and c[3] == 2 and c[4] == 2 and c[5] == 0
