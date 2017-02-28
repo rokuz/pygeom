@@ -7,6 +7,7 @@ import math
 
 
 class Tri2(object):
+    """2D triangle."""
     def __init__(self, p1, p2, p3):
         if len(p1) < 2 or len(p2) < 2 or len(p3) < 2:
             raise ValueError("Length of p1, p2, p3 must be 2 at least.")

@@ -23,6 +23,10 @@ The following classes are available:
     - Calculation connectivity between 2 triangles;
     - Special triangle features: square, incenter, circumcenter, incircle radius,
     circumcircle radius.
+- **Box2**. It represents axis aligned 2D box (min <= max).
+    Features:
+    - Checking for point and box inside;
+    - Checking intersection with another box.
 - **Vec3**. It represents 3D vector.
     Features:
     - Swizzling like in shader languages (GLSL, HLSL, etc.);
